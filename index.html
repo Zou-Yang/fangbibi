@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>手风琴图片展示</title>
+    <script src="lib/jquery-3.1.0.js"></script>
+    <style>
+        *{ padding: 0;margin: 0;}
+        a{ text-decoration: none}
+        body{ background: url(images/bg.jpg)}
+        .wrap{
+            background: white;
+            width: 600px;
+            height:400px;
+            padding: 20px;
+            margin:25vh auto;
+
+        }
+        .box{
+            width: 600px;
+            height:400px;
+            font-size: 0;
+            position: relative;
+        }
+        .item{
+            float: left;
+            width: 150px;
+            height:400px;
+            overflow: hidden;
+            position: relative;
+        }
+        .item span{
+            display:block;
+            width: 100%;
+            height:100%;
+            position: absolute;
+            left:-150px;
+            z-index: 0;
+
+        }
+        .item span:nth-child(1){
+            background-image: url(images/1.jpg);
+        }
+        .item span:nth-child(2){
+            background-image: url(images/2.jpg);
+        }
+        .item span:nth-child(3){
+            background-image: url(images/3.jpg);
+        }
+        .item span:nth-child(4){
+            background-image: url(images/4.jpg);
+        }
+        .item:after{
+            content: "";
+            width: 1px;
+            height:400px;
+            background-image: linear-gradient(to top,white,rgba(255,255,255,0.2));
+            position: absolute;
+            right:0px;
+            top:0px;
+            z-index: 10;
+        }
+        .demo{
+            width: 50px;
+            height:50px;
+            line-height: 50px;
+            font-size: 14px;
+            display: block;
+            border-radius: 50%;
+            background-color: rgba(130,195,217,0.5);
+            text-align: center;
+            color:white;
+            font-weight: bolder;
+            position: absolute;
+            top:-100px;
+            border: 3px solid rgba(255,255,255,0.5);
+            z-index: 4;
+            display: none;
+        }
+        .demo1{
+            left:57px;
+        }
+        .demo2{
+            left:207px;
+        }
+        .demo3{
+            left:357px;
+        }
+        .demo4{
+            left:507px;
+        }
+        .btn{
+            display: block;
+            width: 36px;
+            height:36px;
+            border-radius: 50%;
+            background-color: rgba(130,195,217,0.5);
+            text-align: center;
+            line-height: 36px;
+            color:white;
+            font-weight: bolder;
+            font-size: 20px;
+            position: absolute;
+            border: 3px solid rgba(255,255,255,0.5);
+            z-index: 4;
+        }
+
+        .btn1{
+            bottom: 15px;
+            left:57px;
+        }
+        .btn2{
+            bottom: 15px;
+            left:207px;
+        }
+        .btn3{
+            bottom: 15px;
+            left:357px;
+        }
+        .btn4{
+            bottom: 15px;
+            left:507px;
+        }
+        .ac{
+            background-color: rgba(255,255,255,0.5);
+            border: 3px solid rgba(130,195,217,0.5);
+            color:rgba(130,195,217,0.8)
+        }
+
+    </style>
+    <script>
+        $(function(){
+            //获得对象并保存在变量中，减少dom操作
+            var aItem=$(".item");
+            var Odditem=$(".item:odd");
+            var aBtn=$(".btn");
+            //定位每一个背景图片,并默认显示第一张图片
+
+            aItem.each(function(i){
+                var index=i+1;
+                $(this).find("span")
+                        .css("background-position",i*33+"% 0")
+                        .eq(0).css("left","0px");
+            });
+            /*
+            //定义模式
+            var demo=0;
+            $(".demo").on("click",function(){
+                demo=$(this).index();
+                console.log("demo="+demo)
+            })
+
+            switch (demo){
+                //demo1
+                case "0":
+                        //定位每一个span的位置，demo1为css默认位置
+                    var active=0;
+                    aBtn.click(function(){
+                        var index=$(this).text()-1;
+                        if(index==active){
+                            return;
+                        };
+                        $(this).siblings().removeClass("ac").end().addClass("ac");
+                        aItem.each(function(i){
+                            $(this).find("span")
+                                    .css("z-index","0")
+                                    .eq(index).css("z-index","3").finish()
+                                    .animate({"left":"0px"},500,function(){
+                                        $(this).siblings().css({"left":"-150px"})
+                                    });
+                            active=index;
+                        });
+                    });
+                    break;
+
+                //demo2
+                case "1":
+                    //定位每一个span的位置
+                        aItem.eq(1).find("span").css("left","150px").eq(0).css("left","0px");
+                        aItem.eq(3).find("span").css("left","150px").eq(0).css("left","0px");
+                    //点击事件
+                    var active=0;
+                    aBtn.click(function(){
+                        var index=$(this).text()-1;
+                        if(index==active){
+                            return;
+                        };
+                        $(this).siblings().removeClass("ac").end().addClass("ac");
+                        aItem.each(function(i){
+                            if(i=1||3){
+                                $(this).find("span").css({"z-index":"0","left":"150px"})
+                                        .eq(index).css("z-index","3").finish()
+                                        .animate({"left":"0px"},500,function(){
+
+                                            active=index;
+                                        });
+                            }else if(i=0||2){
+                                $(this).find("span")
+                                        .css({"z-index":"0","left":"-150px"})
+                                        .eq(index).css("z-index","3").finish()
+                                        .animate({"left":"0px"},500,function(){
+                                            active=index;
+                                        });
+                            }
+
+                        })
+                    });
+                    break;
+                //demo3
+                case "2":
+                    break;
+                //demo4
+                case "3":
+                    break;
+            }*/
+            var active=0;
+            $(".btn").click(function(){
+                var index=$(this).text()-1;
+                if(index==active){
+                    return;
+                };
+                $(this).siblings().removeClass("ac").end().addClass("ac");
+                $(".item").each(function(i){
+                    $(this).find("span")
+                            .css("z-index","0")
+                            .eq(index).css("z-index","3").finish()
+                            .animate({"left":"0px"},500,function(){
+                                $(this).siblings().css({"left":"-150px"})
+                            });
+                    active=index;
+                });
+            });
+        })
+    </script>
+</head>
+<body>
+<div class="wrap">
+
+    <div class="box">
+            <div class="demo demo1">Demo1</div>
+            <div class="demo demo2">Demo2</div>
+            <div class="demo demo3">Demo3</div>
+            <div class="demo demo4">Demo4</div>
+            <a class="btn btn1 ac" href="javascript:;">1</a>
+            <a class="btn btn2 " href="javascript:;">2</a>
+            <a class="btn btn3 " href="javascript:;">3</a>
+            <a class="btn btn4 " href="javascript:;">4</a>
+        <div class="item item1">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="item">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="item">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="item">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+
+    </div>
+
+
+</div>
+</body>
+</html>
